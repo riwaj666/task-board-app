@@ -100,7 +100,7 @@ export function TaskEditDialog({ isOpen, task, onClose, onUpdate, fetchActivitie
 
   return (
     <div 
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
       onMouseDown={handleBackdropClick}
     >
       <div className="relative w-full max-w-md rounded-xl border border-card-border bg-card p-6 shadow-2xl flex flex-col gap-6 max-h-[90vh] overflow-hidden">
