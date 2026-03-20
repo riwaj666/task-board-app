@@ -146,6 +146,8 @@ export function useTasks() {
   };
 
   const updateTask = async (taskId: string, updates: Partial<Task>) => {
+    const oldTask = tasks.find(t => t.id === taskId);
+    
     // Optimistic update
     setTasks(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
     
@@ -158,7 +160,11 @@ export function useTasks() {
       console.error("Error updating task:", JSON.stringify(error, null, 2));
       // Revert optimism if needed (omitted for brevity)
     } else {
-      logActivity(taskId, `Task details updated`, 'edit');
+      if (oldTask && updates.status && oldTask.status !== updates.status) {
+        logActivity(taskId, `Status changed from ${STATUS_NAMES[oldTask.status]} to ${STATUS_NAMES[updates.status]}`, 'status_change');
+      } else {
+        logActivity(taskId, `Task details updated`, 'edit');
+      }
     }
   };
 
