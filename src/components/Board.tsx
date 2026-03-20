@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { DndContext, DragOverlay, closestCorners, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors, DragStartEvent, DragOverEvent, DragEndEvent } from '@dnd-kit/core';
+import { DndContext, DragOverlay, closestCenter, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors, DragStartEvent, DragOverEvent, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Task, TaskStatus, ActivityLog } from '@/lib/types';
 import BoardColumn from './BoardColumn';
@@ -131,10 +131,10 @@ export function Board({ tasks, onTaskMove, onCreateTask, onUpdateTask, fetchActi
         </div>
       </div>
 
-      <div className="flex flex-1 gap-4 md:gap-6 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar">
+      <div className={`flex flex-1 gap-4 md:gap-6 overflow-x-auto pb-4 hide-scrollbar ${activeId ? '' : 'snap-x snap-mandatory'}`}>
         <DndContext
           sensors={sensors}
-          collisionDetection={closestCorners}
+          collisionDetection={closestCenter}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
