@@ -36,7 +36,7 @@ function App() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-[#0D0D12] p-8 text-[#EDEDED]">
+    <main className="flex min-h-screen flex-col bg-[#0D0D12] p-4 md:p-8 text-[#EDEDED]">
       <BoardSummary tasks={tasks} />
       <Board 
         tasks={tasks} 

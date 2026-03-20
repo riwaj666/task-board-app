@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { format } from 'date-fns';
 import { ChevronDownIcon, ChevronRightIcon, HistoryIcon, XIcon } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 interface TaskEditDialogProps {
   isOpen: boolean;
@@ -23,8 +24,6 @@ export function TaskEditDialog({ isOpen, task, onClose, onUpdate, fetchActivitie
   const [loadingActivities, setLoadingActivities] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   
-  const dialogRef = useRef<HTMLDivElement>(null);
-
   // Reset state when task changes
   useEffect(() => {
     setTitle(task.title);
@@ -43,18 +42,11 @@ export function TaskEditDialog({ isOpen, task, onClose, onUpdate, fetchActivitie
     }
   }, [task, isOpen, fetchActivities, isHistoryOpen]);
 
-  // Click outside to close
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, onClose]);
+  };
 
   // Escape to close
   useEffect(() => {
@@ -107,8 +99,11 @@ export function TaskEditDialog({ isOpen, task, onClose, onUpdate, fetchActivitie
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div ref={dialogRef} className="relative w-full max-w-md rounded-xl border border-card-border bg-card p-6 shadow-2xl flex flex-col gap-6 max-h-[90vh] overflow-hidden">
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      onMouseDown={handleBackdropClick}
+    >
+      <div className="relative w-full max-w-md rounded-xl border border-card-border bg-card p-6 shadow-2xl flex flex-col gap-6 max-h-[90vh] overflow-hidden">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-foreground">Edit Task</h2>
           <button 
@@ -142,28 +137,30 @@ export function TaskEditDialog({ isOpen, task, onClose, onUpdate, fetchActivitie
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-1 block text-sm font-medium text-muted-foreground">Status</label>
-              <select
-                className="flex h-10 w-full rounded-md border border-card-border bg-card/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary text-foreground"
-                value={status}
-                onChange={e => setStatus(e.target.value as TaskStatus)}
-              >
-                <option value="todo">To Do</option>
-                <option value="in_progress">In Progress</option>
-                <option value="in_review">In Review</option>
-                <option value="done">Done</option>
-              </select>
+              <Select value={status} onValueChange={(val) => setStatus(val as TaskStatus)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="todo">To Do</SelectItem>
+                  <SelectItem value="in_progress">In Progress</SelectItem>
+                  <SelectItem value="in_review">In Review</SelectItem>
+                  <SelectItem value="done">Done</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium text-muted-foreground">Priority</label>
-              <select
-                className="flex h-10 w-full rounded-md border border-card-border bg-card/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary text-foreground"
-                value={priority}
-                onChange={e => setPriority(e.target.value as TaskPriority)}
-              >
-                <option value="low">Low</option>
-                <option value="normal">Normal</option>
-                <option value="high">High</option>
-              </select>
+              <Select value={priority} onValueChange={(val) => setPriority(val as TaskPriority)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="normal">Normal</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

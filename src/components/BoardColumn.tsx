@@ -20,7 +20,7 @@ export default function BoardColumn({ id, title, tasks, onAddTask, onEditTask }:
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
-    <div className="flex w-[320px] flex-shrink-0 flex-col rounded-xl bg-card border border-card-border">
+    <div className="flex w-[85vw] sm:w-[320px] flex-shrink-0 flex-col rounded-xl bg-card border border-card-border snap-center sm:snap-align-none">
       <div className="flex items-center justify-between p-4 pb-2">
         <div className="flex items-center gap-2">
           <h3 className="font-semibold text-sm">{title}</h3>

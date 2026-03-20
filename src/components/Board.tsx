@@ -10,6 +10,7 @@ import { TaskEditDialog } from './TaskEditDialog';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { PlusIcon, SearchIcon } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const COLUMNS: { id: TaskStatus; title: string }[] = [
   { id: 'todo', title: 'To Do' },
@@ -84,13 +85,13 @@ export function Board({ tasks, onTaskMove, onCreateTask, onUpdateTask, fetchActi
 
   return (
     <div className="flex h-full w-full flex-col">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Task Board</h1>
-          <p className="text-[#8B8B9B] mt-1 text-sm">Manage your work efficiently.</p>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Task Board</h1>
+          <p className="text-[#8B8B9B] mt-1 text-xs md:text-sm">Manage your work efficiently.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="relative w-64">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center w-full lg:w-auto gap-3">
+          <div className="relative w-full sm:w-64">
             <Input
               placeholder="Search tasks..."
               value={searchQuery}
@@ -101,23 +102,24 @@ export function Board({ tasks, onTaskMove, onCreateTask, onUpdateTask, fetchActi
               <SearchIcon size={16} />
             </div>
           </div>
-          <select
-            className="flex h-10 rounded-md border border-card-border bg-[#1A1A22]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary text-[#EDEDED]"
-            value={priorityFilter}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPriorityFilter(e.target.value)}
-          >
-            <option value="all">All Priorities</option>
-            <option value="low">Low</option>
-            <option value="normal">Normal</option>
-            <option value="high">High</option>
-          </select>
-          <Button onClick={() => handleAddTask('todo')} className="flex items-center gap-2">
+          <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+            <SelectTrigger className="w-full sm:w-[140px]">
+              <SelectValue placeholder="All Priorities" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Priorities</SelectItem>
+              <SelectItem value="low">Low</SelectItem>
+              <SelectItem value="normal">Normal</SelectItem>
+              <SelectItem value="high">High</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button onClick={() => handleAddTask('todo')} className="flex items-center justify-center gap-2 w-full sm:w-auto">
             <PlusIcon size={16} /> New Task
           </Button>
         </div>
       </div>
 
-      <div className="flex flex-1 gap-6 overflow-x-auto pb-4">
+      <div className="flex flex-1 gap-4 md:gap-6 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
