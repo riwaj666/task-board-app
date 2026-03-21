@@ -26,7 +26,7 @@ The goal of this project was to build a polished task board inspired by tools li
 
 ## 🚀 Live Demo & Links
 
-* **Live Frontend App:** [Insert Vercel/Netlify Live Link Here]
+* **Live Frontend App:** https://task-board-app-tau.vercel.app/
 * **GitHub Repository:** https://github.com/riwaj666/task-board-app
 
 ---
@@ -85,23 +85,6 @@ This ensures each user only sees their own data.
 
 ---
 
-## ⚖️ Architectural Tradeoffs and Future Improvements
-
-During development, I focused on building a solid and usable foundation. With more time, here are the improvements I would prioritize:
-
-1. **State Management:**
-   The app currently uses React state and local updates. I would introduce a solution like TanStack Query or Zustand to improve caching, synchronization, and handling of edge cases.
-
-2. **Reducing Database Calls:**
-   Rapid drag actions can trigger multiple updates. I would add debouncing or batching so only the final state is saved.
-
-3. **Team Collaboration:**
-   The app is currently single-user. I would extend the schema to support multiple users and task assignments using many-to-many relationships.
-
-4. **Dedicated Backend Layer:**
-   The frontend directly interacts with Supabase for simplicity. In a production system, I would introduce a backend (Node.js or Go) to handle business logic and background tasks like notifications.
-
----
 
 ## 💻 Setup Instructions
 
